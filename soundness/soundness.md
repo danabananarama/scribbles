@@ -3,7 +3,7 @@ As a mathematics-student-turned-software developer, I’ve spent a lot of time t
 
 In the last year or so, my team has been working on a project implemented in Typescript. Having grown accustomed to languages which complain immediately when an undefined property is accessed, initially it was a bit daunting!
 
-Thankfully Typescript’s static typing system has helped a lot in being able to reason about code, and while it makes no pretensions to perfection, I’ve found it fascinating to try and understand what is gained by (intentionally) trading purity for convenience.
+Thankfully Typescript’s static typing system has helped a lot in being able to reason about code, and while it makes no pretensions to perfection, I’ve found it fascinating to try and understand what is gained by (intentionally) trading purity for simplicity and/or usefulness.
 
 I find the concept of soundness particularly interesting, having come across it in mathematics before, but not really understanding what it means when programmers use it. (As with many such concepts, I suspect this is partially due to there not being a consistent definition in programming. c.f. "strong typing")
 
@@ -37,7 +37,7 @@ For example, you might define a system “Star”, with the language as above an
 
 We also have rules of inference which provide a way of combining statements that result in new statements.
 
-The basic rule of inference (known as _modus ponens_) is: “if _p_ is true, and _p_ implies _q_, then _q_ is true” where _p_ and _q_ are statements.
+The basic rule of inference (known as _modus ponens_) is: “if _p_ is true, and _p => q_ (_p_ implies _q_), then _q_ is true” where _p_ and _q_ are statements.
 
 A _proof_ is a combination of statements with the rule of inference to arrive at another statement.
 
@@ -80,7 +80,7 @@ In the world of mathematics, this seems like a no-brainer. After all, one of the
 
 My approach to this has always been to just assume things are sound. But, just as it took a socially isolated lifestyle in the time of a pandemic to appreciate the importance of face to face interactions, experiencing unsoundness in the wild has deepened my understanding of the concept of soundness.
 
-So you can imagine my excitement upon discovering unsoundness naturally arising (as a consequence of convenience) in programming!
+So you can imagine my excitement upon discovering unsoundness naturally arising in programming!
 
 <sup id="f1">[1] One of the first things every budding algebraist has to do is prove that _0 * a = 0_. This can often take several hours or more, and can either be an immensely beautiful and satisfying experience, or induce one to seriously question the life decisions they've made. Or both.</sup>
 
