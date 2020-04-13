@@ -21,23 +21,25 @@ In order to understand what we mean by soundness in a mathematical context, we f
 We start with some set of things _T_ (e.g. the integers). You can think of this as the universe for our system.
 We have a _language_ of special symbols in _T_ (kind of like keywords in programming).
 For example, we might have
-* _._ - a binary operation we can apply to any two elements of _T_
+* \* - a binary operation we can apply to any two elements of _T_
 * _e_ - an identity element
 * Standard mathematical symbols like _=_
 
-Combining the elements of T with symbols in the language give us _statements_, such as _x = y . z_
+Combining the elements of T with symbols in the language give us _statements_, such as _x = y * z_.
 
 We also have _axioms_, which are statements we take to be true. These will be the base for proving things in our system. 
 
-For example, you might define a system “Dot”, with the language as above and axioms
-* _e . x = x = x . e_ for all x
-* _x . (y . z) = (x . y) . z_
+For example, you might define a system “Star”, with the language as above and axioms
+* _e * x = x = x * e_ for all _x_ in _T_
+* _x * (y * z) = (x * y) * z_ for all _x, y, z_ in _T_
 
 We also have rules of inference which provide a way of combining statements that result in new statements.
-One basic rule of inference (known as _modus ponens_) is: “if _p_ is true, and _p_ implies _q_, then _q_ is true” where _p_ and _q_ are statements, and
+One basic rule of inference (known as _modus ponens_) is: “if _p_ is true, and _p_ implies _q_, then _q_ is true” where _p_ and _q_ are statements.
 
-This way of combining statements with the rule of inference is the defintion of a _proof_.
-For example, in Dot you can show that the identity _e_ is unique. (see picture)
+This way of combining statements with the rule of inference is the definition of a _proof_.
+For example, in Star you can prove that the identity _e_ is unique.
+
+<img src="./maths_proof.png" />
 
 #### Truth
 Logical systems have _models_, which you can think of as an implementation of the system.
@@ -49,17 +51,21 @@ We construct a model by taking _T_ to be some concrete set, such as
 
 We then define an implementation of the _language_.
 
-e.g. To construct a model of Dot, we just need to define the binary operation . with an identity on a set.
+e.g. To construct a model of Star, we just need to define the binary operation * with an identity on a set.
 
 Some examples of models would be:
-* _T_ = integers where . is multiplication, _e_ is 1
-* _T_ = 2 x 2 matrices where . is matrix multiplication, _e_ is the identity matrix
+* _T_ = integers where * is multiplication, _e_ is 1
+* _T_ = 2 x 2 matrices where * is matrix multiplication, _e_ is the identity matrix
 
 This leads to the notion of _truth_ (or _validity_):
 * A statement is _valid_ with respect to a system if it’s true in all models of the system
 * A statement is not _valid_ with respect to a system if there exists a model of the system in which that statement is false
 
-E.g. in Dot, we can form the statement “_x . y = y . x_”. This is not valid because, while it might be true in some models, like integers, it’s false in others, like the world of 2 x 2 matrices (EXAMPLE)
+E.g. in Dot, we can form the statement _x * y = y * x_. This is not valid because, while it might be true in some models, like integers, it’s false in others, like the world of 2 x 2 matrices.
+
+<img src="./maths_truth.png" />
+
+On the other hand, the statement of uniqueness of the identity that we proved is valid since it's true in all models.
 
 #### Revisiting the definition
 Now we have all of the missing pieces we need to understand our earlier definition of soundness; recall:
@@ -71,6 +77,8 @@ In the world of mathematics, this seems like a no-brainer. After all, one of the
 My approach to this has always been to just assume things are sound. But, just as it took a socially isolated lifestyle in the time of a pandemic to appreciate the importance of face to face interactions, experiencing unsoundness in the wild has deepened my understanding of the concept of soundness.
 
 So you can imagine how exciting it is to discover unsoundness naturally arising (as a consequence of convenience) in programming!
+
+<b id="f1">1</b> One of the first things every budding algebraist has to do is prove that _0 * a = 0_. This can often take several hours or more, and can either be an immensely beautiful and satisfying experience, or induce one to seriously question the life decisions they've made. Or both.[↩](#fref1)
 
 ### Unsoundness in programming
 
@@ -97,12 +105,14 @@ class Dragon {}
 const hatch = (egg: Egg): Dragon => new Dragon()
 ```
 
+<img src="./prog_proof.png" />
+
 We can think about a proof as a statement that is deduced by the type system, i.e. a statement known as compile time.
 
-#### The perils of usefulness
+#### Introducing usefulness
 To support the richness required to conveniently capture relations and logic in a more intuitive and powerful fashion, languages must use other rules of inference.
 
-For example, if `A` is a subtype of `B`, then we probably want any collection of `A`s to also be a collection of `B`s. In other words, if `Dragon` is a subtype of `Animal`, then `List[Dragon]` is a subtype of `List[Animal]`.
+For example, if `A` is a subtype of `B`, then we probably want any collection of `A`s to also be a collection of `B`s. In other words, if `Dragon` is a subtype of `Animal`, then `Dragon[]]` is a subtype of `Animal[]]`.
 
 Seems like a natural property to assume of subtypes, doesn't it?
 
@@ -115,6 +125,8 @@ type Animal = Dragon | Llama;
 
 const dragons: Dragon[] = [new Dragon()];
 ```
+
+<img src="./prog_proof_2.png" />
 
 These rules appear innocuous, but each one expands the logical system so that more statements can be proven. Sometimes this is precisely what you want because the compiler can catch more errors and save us unwelcome surprises at runtime.
 
@@ -131,7 +143,7 @@ class Dragon {}
 const hatch = (egg: Egg): Dragon => new Dragon()
 ```
 
-<picture of “hatched is a dragon” being true with multiple eggs>
+<img src="./prog_truth.png" />
 
 #### Unsoundness
 As we have mentioned previously, expanding the logical system means the compiler can prove lots of things, but the more things proven, the greater the danger is of some of those things being untrue.
@@ -177,5 +189,5 @@ Soundness is an explicit non-goal of Typescript, which trades it off in favour o
 
 Yep, it’s frustrating to spend lots of time trying to debug and fix an error which one feels a more principled type system would permit, but the rewards in productivity can certainly be worth it.
 
-<b id="f1">1</b> One of the first things every budding algebraist has to do is prove that _0 * a = 0_. This can often take several hours or more, and can either be an immensely beautiful and satisfying experience, or induce one to seriously question the life decisions they've made. Or both.[↩](#fref1)
-
+#### Acknowledgement
+Thanks to @nadeesha for teaching me an appreciation of Typescript!
