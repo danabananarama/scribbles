@@ -20,14 +20,14 @@ In order to understand what we mean by soundness in a mathematical context, we f
 
 We start with some set of things _T_ (e.g. the integers). You can think of this as the universe for our system.
 
-We have a _language_ of special symbols in _T_ - these are analogous to keywords in programming.
+We have a _language_ of special symbols - these are analogous to keywords in programming.
 
 For example, we might have
 * \* - a binary operation we can apply to any two elements of _T_
 * _e_ - an identity element
 * Standard mathematical symbols like _=_
 
-Combining the elements of T with symbols in the language give us _statements_, such as _x = y * z_.
+Combining the elements of _T_ with symbols in the language give us _statements_, such as _x = y * z_.
 
 We also have _axioms_, which are statements we take to be true. These will be the base for proving things in our system. 
 
@@ -35,15 +35,24 @@ For example, you might define a system “Star”, with the language as above an
 * _e * x = x = x * e_ for all _x_ in _T_
 * _x * (y * z) = (x * y) * z_ for all _x, y, z_ in _T_
 
-We also have rules of inference which provide a way of combining statements that result in new statements.
+We also have _rules of inference_ which provide a way of combining statements that result in new statements.
 
 The basic rule of inference (known as _modus ponens_) is: “if _p_ is true, and _p => q_ (_p_ implies _q_), then _q_ is true” where _p_ and _q_ are statements.
+
+A _logical system_ is the collection of:
+* the universe _T_
+* the language of special symbols
+* the axioms, and
+* the rules of inference
+
+#### Proofs in a logical system
 
 A _proof_ is a combination of statements with the rule of inference to arrive at another statement.
 
 For example, in Star you can prove that the identity _e_ is unique.
 
 <img src="./maths_proof.png" />
+
 
 #### Truth in a logical system
 Logical systems have _models_, which you can think of as an implementation of the system.
@@ -192,7 +201,7 @@ Depending on the use case, it’s fair to ask if soundness is even desirable. Th
 
 Soundness is an explicit non-goal of Typescript, which in some situations trades it off in favour of simplicity and useability. As a user (albeit quite a green one) of the language, I appreciate this sentiment.
 
-Yep, it’s frustrating to spend lots of time trying to debug and fix an error which one feels a more principled type system would permit, but the rewards in productivity can certainly be worth it.
+Yep, it’s a frustrating experience to burn time debugging an error which would be impossible under a more principled type system, but it's a trade-off that can offer useful benefits for developer productivity.
 
 #### Acknowledgement
-Thanks to @nadeesha for teaching me an appreciation of Typescript!
+Thanks also to Logan Campbell, Pei Shi Yong and @wjlow for helping me edit this post with some excellent constructive feedback.
